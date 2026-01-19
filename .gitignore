@@ -1,0 +1,5 @@
+/.idea/
+/analytics-service-db/data/
+/execution-service-db/data/
+/order-service-db/data/
+/payment-service-db/data/
