@@ -111,19 +111,21 @@ public class Execution extends EntityWithId {
     }
 
     public enum Status {
-        AWAITING_PAYMENT("Ожидание оплаты", false, true),
-        REJECTED_PAYMENT("Не удалось произвести оплату", false, false),
-        EXECUTING("Выполняется", true, true),
-        COMPLETED("Выполнен", true, true);
+        AWAITING_PAYMENT("Ожидание оплаты", false, true, true),
+        REJECTED_PAYMENT("Не удалось произвести оплату", false, false, false),
+        EXECUTING("Выполняется", true, true, true),
+        COMPLETED("Выполнен", true, true, false);
 
         private final String name;
         private final boolean isPaid;
         private final boolean isAssignedWithExecutor;
+        private final boolean isReservingExecutionPoints;
 
-        Status(String name, boolean isPaid, boolean isAssignedWithExecutor) {
+        Status(String name, boolean isPaid, boolean isAssignedWithExecutor, boolean isReservingExecutionPoints) {
             this.name = name;
             this.isPaid = isPaid;
             this.isAssignedWithExecutor = isAssignedWithExecutor;
+            this.isReservingExecutionPoints = isReservingExecutionPoints;
         }
 
         public String getName() {
@@ -136,6 +138,10 @@ public class Execution extends EntityWithId {
 
         public boolean isAssignedWithExecutor() {
             return isAssignedWithExecutor;
+        }
+
+        public boolean isReservingExecutionPoints() {
+            return isReservingExecutionPoints;
         }
     }
 }

@@ -53,5 +53,6 @@ CREATE TABLE "order" (
 
 ----------Initialize contents----------
 
-insert into client(name) values('Igor');
+insert into client(name) values('Виталий');
 insert into offering(remote_id, name, cost) values (1, 'Типовой расчёт', 20.40);
+insert into offering(remote_id, name, cost) values (2, 'Курсовой проект', 250);

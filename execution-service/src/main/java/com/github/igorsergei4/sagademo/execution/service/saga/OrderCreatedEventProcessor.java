@@ -152,7 +152,6 @@ public class OrderCreatedEventProcessor implements EventProcessor<OrderCreatedEv
         );
 
         notifyAboutAssignedExecutor(execution);
-
         analyticsServiceDataSender.provideExecutionInfo(execution);
     }
 

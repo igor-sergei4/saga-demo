@@ -82,7 +82,7 @@ public record ExecutionInfoEvent(
 
         public ExecutorDto(Executor executor) {
             super(executor);
-            this.dailyPoints = executor.getDailyPoints();
+            this.dailyPoints = executor.getExecutorStats().getDailyPoints();
             this.finalDate = executor.getFinalDate();
         }
 

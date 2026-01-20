@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.Serializable;
 import java.util.Optional;
 
-public class VersionedEntityService<
+public abstract class VersionedEntityService<
         EntityT extends VersionedEntity<PrimaryKeyT>,
         PrimaryKeyT extends Serializable,
         RepositoryT extends JpaRepository<EntityT, PrimaryKeyT>
