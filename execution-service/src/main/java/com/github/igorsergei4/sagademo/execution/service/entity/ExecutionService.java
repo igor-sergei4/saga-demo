@@ -102,7 +102,7 @@ public class ExecutionService extends EntityWithIdService<Execution, ExecutionRe
 
             rebuildExecutionPlan(
                     oldExecutionItems,
-                    getExecutionByPointsToCover(oldExecutionItems),
+                    getPointsToCoverByExecution(oldExecutionItems),
                     upperBoundOfIntervalToRebuild,
                     executorStats.getDailyPoints()
             );
@@ -147,12 +147,12 @@ public class ExecutionService extends EntityWithIdService<Execution, ExecutionRe
             Integer newExecutionPointsToCover,
             Integer dailyPoints
     ) {
-        Map<Execution, Integer> executionByPointsToCover = getExecutionByPointsToCover(oldExecutionItems);
-        executionByPointsToCover.put(newExecution, newExecutionPointsToCover);
+        Map<Execution, Integer> pointsToCoverByExecution = getPointsToCoverByExecution(oldExecutionItems);
+        pointsToCoverByExecution.put(newExecution, newExecutionPointsToCover);
 
         rebuildExecutionPlan(
                 oldExecutionItems,
-                executionByPointsToCover,
+                pointsToCoverByExecution,
                 currentlyProcessedDate,
                 dailyPoints
         );
@@ -160,19 +160,19 @@ public class ExecutionService extends EntityWithIdService<Execution, ExecutionRe
 
     private void rebuildExecutionPlan(
             List<ExecutionItem> oldExecutionItems,
-            Map<Execution, Integer> executionByPointsToCover,
+            Map<Execution, Integer> pointsToCoverByExecution,
             LocalDate currentlyProcessedDate,
             Integer dailyPoints
     ) {
-        List<Execution> sortedExecutions = executionByPointsToCover.keySet()
+        List<Execution> sortedExecutions = pointsToCoverByExecution.keySet()
                 .stream()
-                .sorted(getExecutionPriorityComparator(executionByPointsToCover))
+                .sorted(getExecutionPriorityComparator(pointsToCoverByExecution))
                 .toList();
         List<ExecutionItem> newExecutionItems = new ArrayList<>();
 
         Integer dateRemainingPoints = dailyPoints;
         for (Execution execution : sortedExecutions) {
-            Integer pointsToCover = executionByPointsToCover.get(execution);
+            Integer pointsToCover = pointsToCoverByExecution.get(execution);
 
             if (execution.getDeadlineOn().isBefore(currentlyProcessedDate)) {
                 currentlyProcessedDate = execution.getDeadlineOn();
@@ -203,7 +203,7 @@ public class ExecutionService extends EntityWithIdService<Execution, ExecutionRe
         executionItemRepository.saveAll(newExecutionItems);
     }
 
-    private Map<Execution, Integer> getExecutionByPointsToCover(List<ExecutionItem> executionItems) {
+    private Map<Execution, Integer> getPointsToCoverByExecution(List<ExecutionItem> executionItems) {
         return executionItems.stream().collect(Collectors.toMap(
                 executionItem -> executionItem.getId().getExecution(),
                 ExecutionItem::getPoints,
