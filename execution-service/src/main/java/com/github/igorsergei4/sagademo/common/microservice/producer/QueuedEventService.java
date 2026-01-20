@@ -57,7 +57,7 @@ public class QueuedEventService {
                 PageRequest.of(0, 100)
         );
 
-        for (QueuedEvent queuedEvent : queuedEvents) {
+        queuedEvents.forEach(queuedEvent ->  {
             try {
                 Object payload = customObjectMapper.readValue(
                         queuedEvent.getPayload(),
@@ -68,13 +68,21 @@ public class QueuedEventService {
                         queuedEvent.getTopic(),
                         queuedEvent.getKey(),
                         new EventWrapper<>(queuedEvent.getId(), payload)
-                ).get();
-                queuedEvent.setIsDelivered(true);
-                queuedEventRepository.save(queuedEvent);
+                ).whenCompleteAsync((result, throwable) -> {
+                    if (throwable != null) {
+                        LOGGER.error("Failed to deliver {}", getQueuedEventNameForLogging(queuedEvent), throwable);
+                    } else {
+                        queuedEvent.setIsDelivered(true);
+                        queuedEventRepository.save(queuedEvent);
+                    }
+                });
+            } catch (Exception exception) {
+                LOGGER.error("Exception while processing {}", getQueuedEventNameForLogging(queuedEvent), exception);
             }
-            catch (Exception e) {
-                LOGGER.error("Failed to deliver queued event {} ({})", queuedEvent.getId(), queuedEvent.getTopic(), e);
-            }
-        }
+        });
+    }
+
+    private String getQueuedEventNameForLogging(QueuedEvent queuedEvent) {
+        return String.format("QueuedEvent(id=%d: %s)", queuedEvent.getId(), queuedEvent.getTopic());
     }
 }
