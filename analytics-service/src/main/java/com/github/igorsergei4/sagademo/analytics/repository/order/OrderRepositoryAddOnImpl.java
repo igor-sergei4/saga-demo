@@ -55,6 +55,10 @@ public class OrderRepositoryAddOnImpl implements OrderRepositoryAddOn {
                 paymentStatus
         );
         addFetchDefinitions(mainQueryRoot);
+        mainQuery.orderBy(
+                criteriaBuilder.asc(mainQueryRoot.get(Order_.createdAt)),
+                criteriaBuilder.asc(mainQueryRoot.get(EntityWithIdProjection_.id))
+        );
         TypedQuery<Order> typedQuery = entityManager.createQuery(mainQuery.select(mainQueryRoot));
         typedQuery.setMaxResults(pageSize);
         typedQuery.setFirstResult((page - 1) * pageSize);
