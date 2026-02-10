@@ -1,6 +1,8 @@
 services:
   order-service:
-    build: ./order-service
+    build:
+      context: ./
+      dockerfile: order-service.Dockerfile
     container_name: order-service
     environment:
       APP_PORT: 8080
@@ -23,11 +25,13 @@ services:
       POSTGRES_PASSWORD: order_service_pwd
       POSTGRES_DB: order_service_db
     volumes:
-      - ./order-service-db/data:/var/lib/postgresql/data
-      - ./order-service-db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./database/order-service-db/data:/var/lib/postgresql/18/data
+      - ./database/order-service-db/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   execution-service:
-    build: ./execution-service
+    build:
+      context: ./
+      dockerfile: execution-service.Dockerfile
     container_name: execution-service
     environment:
       APP_PORT: 8080
@@ -50,11 +54,13 @@ services:
       POSTGRES_PASSWORD: execution_service_pwd
       POSTGRES_DB: execution_service_db
     volumes:
-      - ./execution-service-db/data:/var/lib/postgresql/data
-      - ./execution-service-db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./database/execution-service-db/data:/var/lib/postgresql/18/data
+      - ./database/execution-service-db/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   payment-service:
-    build: ./payment-service
+    build:
+      context: ./
+      dockerfile: payment-service.Dockerfile
     container_name: payment-service
     environment:
       FAILURE_RATE: 0.3
@@ -78,11 +84,13 @@ services:
       POSTGRES_PASSWORD: payment_service_pwd
       POSTGRES_DB: payment_service_db
     volumes:
-      - ./payment-service-db/data:/var/lib/postgresql/data
-      - ./payment-service-db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./database/payment-service-db/data:/var/lib/postgresql/18/data
+      - ./database/payment-service-db/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   analytics-service:
-    build: ./analytics-service
+    build:
+      context: ./
+      dockerfile: analytics-service.Dockerfile
     container_name: analytics-service
     ports:
       - "8080:8080"
@@ -108,8 +116,8 @@ services:
       POSTGRES_PASSWORD: analytics_service_pwd
       POSTGRES_DB: analytics_service_db
     volumes:
-      - ./analytics-service-db/data:/var/lib/postgresql/data
-      - ./analytics-service-db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./database/analytics-service-db/data:/var/lib/postgresql/18/data
+      - ./database/analytics-service-db/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   kafka:
     image: apache/kafka:4.1.1
@@ -136,7 +144,6 @@ services:
     container_name: kafka-ui
     ports:
       - "8085:8080"
-    restart: always
     environment:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9091
