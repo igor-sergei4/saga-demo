@@ -34,12 +34,7 @@ public class ProcessedEventService {
         ProcessedEvent processedEvent = new ProcessedEvent();
         processedEvent.setId(processedEventKey);
         processedEvent.setProcessedAt(LocalDateTime.now());
-
-        try {
-            processedEventRepository.save(processedEvent);
-        } catch (Throwable throwable) {
-            throw throwable;
-        }
+        processedEventRepository.save(processedEvent);
 
         if (eventWrapper.getEvent() instanceof Map<?, ?>) {// TODO: Generic field is deserialized as a key-value map...
             return customObjectMapper.convertValue(eventWrapper.getEvent(), eventClass);

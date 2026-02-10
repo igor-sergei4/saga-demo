@@ -52,7 +52,7 @@ public class OrderRequiresPaymentEventProcessor implements EventProcessor<OrderR
                 event.cost()
         );
 
-        Long orderId = orderPayment.getOrderId();;
+        Long orderId = orderPayment.getOrderId();
         if (OrderPayment.Status.COMMITED.equals(orderPayment.getStatus())) {
             queuedEventService.queueAnEvent(
                     ORDER_PAYMENT_APPROVED_TOPIC,

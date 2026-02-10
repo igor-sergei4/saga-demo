@@ -42,10 +42,10 @@ public class Order extends EntityWithIdProjection {
     @Column(name = "status")
     private String status;
 
-    @OneToOne(mappedBy = "order", fetch = FetchType.LAZY, optional = true)
+    @OneToOne(mappedBy = "order", optional = true)
     private Execution execution;
 
-    @OneToOne(mappedBy = "order", fetch = FetchType.LAZY, optional = true)
+    @OneToOne(mappedBy = "order", optional = true)
     private OrderPayment orderPayment;
 
     public OrderClient getClient() {

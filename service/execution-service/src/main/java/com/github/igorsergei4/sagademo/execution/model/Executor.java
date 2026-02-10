@@ -16,7 +16,7 @@ public class Executor extends NamedEntity {
     @Column(name = "final_date", nullable = true)
     private LocalDate finalDate;
 
-    @OneToOne(mappedBy = "executor", fetch = FetchType.LAZY, optional = false)
+    @OneToOne(mappedBy = "executor", optional = false)
     private ExecutorStats executorStats;
 
     public LocalDate getFinalDate() {

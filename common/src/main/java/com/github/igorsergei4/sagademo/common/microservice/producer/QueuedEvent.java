@@ -38,7 +38,7 @@ public class QueuedEvent {
     public QueuedEvent(String topic, String key, String payloadClassName, String payload) {
         this.topic = topic;
         this.key = key;
-        this.payloadClassName = payloadClassName;;
+        this.payloadClassName = payloadClassName;
         this.payload = payload;
         this.createdAt = LocalDateTime.now();
         this.isDelivered = false;

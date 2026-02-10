@@ -43,5 +43,5 @@ abstract class EntityWithIdProjectionService {
             NamedEntityDto namedEntityDto
     ) {
         namedEntity.setName(namedEntityDto.getName());
-    };
+    }
 }

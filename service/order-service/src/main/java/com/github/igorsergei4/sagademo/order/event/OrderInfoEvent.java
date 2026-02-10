@@ -40,7 +40,7 @@ public record OrderInfoEvent(
         public OfferingDto(Offering offering) {
             super(offering);
             this.cost = offering.getCost();
-            this.isDeprecated = offering.getIsDeprecated();;
+            this.isDeprecated = offering.getIsDeprecated();
         }
 
         public OfferingDto() {

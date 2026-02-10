@@ -1,9 +1,7 @@
 package com.github.igorsergei4.sagademo.order.service.saga;
 
 import com.github.igorsergei4.sagademo.common.microservice.consumer.EventProcessor;
-import com.github.igorsergei4.sagademo.common.microservice.producer.QueuedEventService;
 import com.github.igorsergei4.sagademo.execution.event.OrderExecutionRejectedEvent;
-import com.github.igorsergei4.sagademo.order.event.OrderInfoEvent;
 import com.github.igorsergei4.sagademo.order.model.Order;
 import com.github.igorsergei4.sagademo.order.service.analytics.AnalyticsServiceDataSender;
 import com.github.igorsergei4.sagademo.order.service.entity.OfferingService;
